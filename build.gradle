@@ -1,6 +1,6 @@
 apply(plugin: "java");
 
-group = "com.github.fge"; // TODO: change!
+group = "com.github.javachat"; // TODO: change!
 description = "n-ary tree traversal using streams";
 version = "0.1.0-SNAPSHOT";
 
@@ -26,7 +26,7 @@ dependencies {
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/8/docs/api/");
-javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v19.0/javadoc/");
+javadoc.options.links("http://google.github.io/guava/releases/19.0/api/docs/");
 
 test {
     useTestNG() {
