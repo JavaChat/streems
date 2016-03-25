@@ -35,7 +35,7 @@ everything will become a `Stream`.
 
 ```java
 // Choose your traversal order... Here, PREORDER
-final Stream<Foo> stream = Streems.fromGuava(treeTraverser, Traversal.PREORDER);
+final Stream<Foo> stream = Streems.fromGuava(foo, treeTraverser, Traversal.PREORDER);
 ```
 
 ### Using your own classes
