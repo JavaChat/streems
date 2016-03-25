@@ -27,17 +27,17 @@ public final class GuavaTraversal<E>
         throw new IllegalStateException("How did I even get there??");
     }
 
-    public Iterable<E> preorder(final E root)
+    private Iterable<E> preorder(final E root)
     {
         return traverser.preOrderTraversal(root);
     }
 
-    public Iterable<E> postorder(final E root)
+    private Iterable<E> postorder(final E root)
     {
         return traverser.postOrderTraversal(root);
     }
 
-    public Iterable<E> breadthfirst(final E root)
+    private Iterable<E> breadthfirst(final E root)
     {
         return traverser.breadthFirstTraversal(root);
     }
