@@ -46,7 +46,7 @@ public final class PostorderSpliterator<T>
         return ORDERED | NONNULL;
     }
 
-    private static class PostorderNode<E>
+    private static final class PostorderNode<E>
     {
         private final E root;
         private final Iterator<E> childrenIterator;
