@@ -1,7 +1,5 @@
 package com.github.javachat.streems.spliterators;
 
-import com.github.javachat.streems.NaryTreeSpliterator;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
@@ -9,15 +7,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class BreadthFirstSpliterator<T>
-    implements NaryTreeSpliterator<T>
+    extends NaryTreeSpliterator<T>
 {
-    private final Function<T, Iterator<T>> fn;
     private final Deque<T> deque = new ArrayDeque<>();
 
     public BreadthFirstSpliterator(final T root,
         final Function<T, Iterator<T>> fn)
     {
-        this.fn = fn;
+        super(root, fn);
         deque.addFirst(root);
     }
 
@@ -30,11 +27,5 @@ public final class BreadthFirstSpliterator<T>
         fn.apply(element).forEachRemaining(deque::addLast);
         action.accept(element);
         return true;
-    }
-
-    @Override
-    public int characteristics()
-    {
-        return ORDERED | NONNULL;
     }
 }

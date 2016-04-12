@@ -1,7 +1,5 @@
 package com.github.javachat.streems.spliterators;
 
-import com.github.javachat.streems.NaryTreeSpliterator;
-
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
@@ -9,15 +7,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class PostorderSpliterator<T>
-    implements NaryTreeSpliterator<T>
+    extends NaryTreeSpliterator<T>
 {
-    private final Function<T, Iterator<T>> fn;
     private final Deque<PostorderNode<T>> deque = new ArrayDeque<>();
 
     public PostorderSpliterator(final T root,
         final Function<T, Iterator<T>> fn)
     {
-        this.fn = fn;
+        super(root, fn);
         deque.add(new PostorderNode<T>(root, fn));
     }
 
@@ -38,12 +35,6 @@ public final class PostorderSpliterator<T>
             deque.addLast(new PostorderNode<T>(iterator.next(), fn));
         }
         return false;
-    }
-
-    @Override
-    public int characteristics()
-    {
-        return ORDERED | NONNULL;
     }
 
     private static final class PostorderNode<E>
