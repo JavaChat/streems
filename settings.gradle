@@ -1,2 +1,5 @@
 include (":streems-core");
 include (":streems-guava");
+
+project(":streems-core").name = "streems";
+

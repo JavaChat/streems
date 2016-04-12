@@ -1,7 +1,7 @@
 description = "n-ary tree traversal using streams: Guava backwards compatibility";
 
 dependencies {
-    compile project(":streems-core");
+    compile project(":streems");
     compile(group: "com.google.guava", name: "guava", version: "[19.0,)");
 }
 
