@@ -1,0 +1,8 @@
+description = "n-ary tree traversal using streams: Guava backwards compatibility";
+
+dependencies {
+    compile project(":streems-core");
+    compile(group: "com.google.guava", name: "guava", version: "[19.0,)");
+}
+
+javadoc.options.links("http://google.github.io/guava/releases/19.0/api/docs/");

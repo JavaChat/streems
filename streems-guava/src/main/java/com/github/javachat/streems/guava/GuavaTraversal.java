@@ -5,16 +5,16 @@ import com.google.common.collect.TreeTraverser;
 
 import java.util.function.Function;
 
-public final class GuavaTraversal<E>
+final class GuavaTraversal<E>
 {
     private final TreeTraverser<E> traverser;
 
-    public GuavaTraversal(final TreeTraverser<E> traverser)
+    GuavaTraversal(final TreeTraverser<E> traverser)
     {
         this.traverser = traverser;
     }
 
-    public Function<E, Iterable<E>> forTraversal(final Traversal traversal)
+    Function<E, Iterable<E>> forTraversal(final Traversal traversal)
     {
         switch (traversal) {
             case BREADTHFIRST:

@@ -1,10 +1,8 @@
 package com.github.javachat.streems;
 
-import com.github.javachat.streems.guava.GuavaTraversal;
 import com.github.javachat.streems.spliterators.BreadthFirstSpliterator;
 import com.github.javachat.streems.spliterators.PostorderSpliterator;
 import com.github.javachat.streems.spliterators.PreorderSpliterator;
-import com.google.common.collect.TreeTraverser;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -56,13 +54,5 @@ public final class Streems
         final IteratorProvider<E> p
             = e -> Arrays.stream(provider.apply(root)).iterator();
         return traverse(root, p, traversal);
-    }
-
-    public static <E> Stream<E> fromGuava(final E root,
-        final TreeTraverser<E> traverser, final Traversal traversal)
-    {
-        final GuavaTraversal<E> gt = new GuavaTraversal<>(traverser);
-        final Iterable<E> iterable = gt.forTraversal(traversal).apply(root);
-        return StreamSupport.stream(iterable.spliterator(), false);
     }
 }

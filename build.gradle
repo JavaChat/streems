@@ -1,60 +1,166 @@
-apply(plugin: "java");
+group = "com.github.javachat";
+//version = "0.1.0-SNAPSHOT";
 
-group = "com.github.javachat"; // TODO: change!
-description = "n-ary tree traversal using streams";
-version = "0.1.0-SNAPSHOT";
+subprojects {
+    apply(plugin: "java");
+    apply(plugin: "maven");
+    apply(plugin: "signing");
+    apply(plugin: "osgi");
+    apply(plugin: "idea");
+    apply(plugin: "eclipse");
 
-def javaVersion = JavaVersion.VERSION_1_8;
-sourceCompatibility = javaVersion;
-targetCompatibility = javaVersion; // defaults to sourceCompatibility
+    version = "0.1.0-SNAPSHOT";
 
-repositories {
-    mavenCentral();
-}
+    def javaVersion = JavaVersion.VERSION_1_8;
+    sourceCompatibility = javaVersion;
+    targetCompatibility = javaVersion; // defaults to sourceCompatibility
 
-dependencies {
-    compile(group: "com.google.guava", name: "guava", version: "19.0");
-    testCompile(group: "org.testng", name: "testng", version: "6.9.10") {
-        exclude(group: "org.apache.ant", module: "ant");
-        exclude(group: "com.google.inject", module: "guice");
-        exclude(group: "junit", module: "junit");
-        exclude(group: "org.beanshell", module: "bsh");
-        exclude(group: "org.yaml", module: "snakeyaml");
+
+    repositories {
+        mavenCentral();
+    }
+
+    dependencies {
+        testCompile(group: "org.testng", name: "testng", version: "6.9.10") {
+            exclude(group: "org.apache.ant", module: "ant");
+            exclude(group: "com.google.inject", module: "guice");
+            exclude(group: "junit", module: "junit");
+            exclude(group: "org.beanshell", module: "bsh");
+            exclude(group: "org.yaml", module: "snakeyaml");
+        };
+        testCompile(group: "org.mockito", name: "mockito-core", version: "1.10.19");
+        testCompile(group: "org.assertj", name: "assertj-core", version: "3.3.0");
+    }
+
+    javadoc.options.links("http://docs.oracle.com/javase/8/docs/api/");
+
+    test {
+        useTestNG() {
+            useDefaultListeners = true;
+        };
+    }
+
+    /*
+     * Necessary to generate the source and javadoc jars
+     */
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = "sources";
+        from sourceSets.main.allSource;
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = "javadoc";
+        from javadoc.destinationDir;
+    }
+
+    artifacts {
+        archives jar;
+        archives sourcesJar;
+        archives javadocJar;
+    }
+    /*
+     * SIGNING
+     */
+
+    project.ext {
+        gitrwscm = sprintf("git@github.com:fge/%s", name);
+        gitroscm = sprintf("https://github.com/fge/%s.git", name);
+        projectURL = sprintf("https://github.com/fge/%s", name);
+        sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
+        sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
     };
-    testCompile(group: "org.mockito", name: "mockito-core", version: "1.10.19");
-    testCompile(group: "org.assertj", name: "assertj-core", version: "3.3.0");
-}
 
-javadoc.options.links("http://docs.oracle.com/javase/8/docs/api/");
-javadoc.options.links("http://google.github.io/guava/releases/19.0/api/docs/");
+    task checkSigningRequirements << {
+        def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
+        def noDice = false;
+        requiredProperties.each {
+            if (project.properties[it] == null) {
+                noDice = true;
+                System.err.printf("property \"%s\" is not defined!", it);
+            }
+        }
+        if (noDice)
+            throw new IllegalStateException("missing required properties for " +
+                    "upload");
+    }
 
-test {
-    useTestNG() {
-        useDefaultListeners = true;
-    };
-}
+    task enforceVersion << {
+        def foundVersion = JavaVersion.current();
+        if (foundVersion != javaVersion)
+            throw new IllegalStateException("Wrong java version; required is " +
+                    javaVersion + ", but found " + foundVersion);
+    }
 
-/*
- * Necessary to generate the source and javadoc jars
- */
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources";
-    from sourceSets.main.allSource;
-}
+    uploadArchives {
+        dependsOn(enforceVersion, checkSigningRequirements);
+        repositories {
+            mavenDeployer {
+                beforeDeployment {
+                    MavenDeployment deployment -> signing.signPom(deployment);
+                }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = "javadoc";
-    from javadoc.destinationDir;
-}
+                repository(url: "${sonatypeStaging}") {
+                    authentication(
+                            userName: project.properties["sonatypeUsername"],
+                            password: project.properties["sonatypePassword"]
+                    );
+                }
 
-artifacts {
-    archives jar;
-    archives sourcesJar;
-    archives javadocJar;
+                snapshotRepository(url: "${sonatypeSnapshots}") {
+                    authentication(
+                            userName: project.properties["sonatypeUsername"],
+                            password: project.properties["sonatypePassword"]
+                    );
+                }
+            }
+        }
+    }
+
+    /*
+     * Configure pom.xml on install, uploadArchives
+     */
+    [
+            install.repositories.mavenInstaller,
+            uploadArchives.repositories.mavenDeployer
+    ]*.pom*.whenConfigured { pom ->
+        pom.project {
+            name "${project.name}";
+            description "${project.description}";
+            packaging "jar";
+            url "${projectURL}";
+
+            scm {
+                url "${gitrwscm}";
+                connection "${gitrwscm}";
+                developerConnection "${gitroscm}";
+            }
+
+            licenses {
+                license {
+                    name "Apache Software License, version 2.0";
+                    url "http://www.apache.org/licenses/LICENSE-2.0";
+                    distribution "repo";
+                }
+            }
+
+            developers {
+                developer {
+                    id "fge";
+                    name "Francis Galiegue";
+                    email "fgaliegue@gmail.com";
+                }
+            }
+        }
+    }
+
+    ext.forRelease = !version.endsWith("-SNAPSHOT");
+    signing {
+        required { forRelease && gradle.taskGraph.hasTask("uploadArchives") };
+        sign configurations.archives;
+    }
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = "2.12";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
-
