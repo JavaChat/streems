@@ -52,7 +52,7 @@ For instance:
 
 ```
 final Stream<MyNode> stream
-    = Streems.traverse(myNode, MyNode::children, Traversal.PREORDER)`;
+    = Streems.traverse(myNode, MyNode::children, Traversal.PREORDER);
 ```
 
 ### Notes about the returned Streams...
