@@ -11,14 +11,14 @@ import java.util.stream.StreamSupport;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public final class PreorderSpliteratorTest
+public final class PostOrderSpliteratorTest
 {
     @Test
-    public void preorderTest()
+    public void postorderTest()
     {
         final SimpleTree tree = SimpleTree.sampleTree();
         final Spliterator<SimpleTree> spliterator
-            = new PreorderSpliterator<>(tree, SimpleTree::children);
+            = new PostOrderSpliterator<>(tree, SimpleTree::children);
         final Stream<SimpleTree> stream
             = StreamSupport.stream(spliterator, false);
 
@@ -26,6 +26,6 @@ public final class PreorderSpliteratorTest
             .collect(Collectors.toList());
 
         assertThat(list)
-            .containsExactly("h", "d", "a", "b", "c", "e", "g", "f");
+            .containsExactly("a", "b", "c", "d", "e", "f", "g", "h");
     }
 }

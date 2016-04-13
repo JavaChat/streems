@@ -7,12 +7,17 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class PreorderSpliterator<T>
+/**
+ * A spliterator for preorder traversal
+ *
+ * @param <T> type of the nodes in the tree
+ */
+public final class PreOrderSpliterator<T>
     extends NaryTreeSpliterator<T>
 {
     private final Deque<Iterator<T>> deque = new ArrayDeque<>();
 
-    public PreorderSpliterator(final T root,
+    public PreOrderSpliterator(final T root,
         final Function<T, Iterator<T>> fn)
     {
         super(root, fn);

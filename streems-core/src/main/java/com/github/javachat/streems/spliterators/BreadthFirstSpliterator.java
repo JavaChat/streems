@@ -6,6 +6,11 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * A spliterator for breadth-first traversal
+ *
+ * @param <T> type of the nodes in the tree
+ */
 public final class BreadthFirstSpliterator<T>
     extends NaryTreeSpliterator<T>
 {

@@ -6,12 +6,17 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class PostorderSpliterator<T>
+/**
+ * A spliterator for postorder traversal
+ *
+ * @param <T> type of the nodes in the tree
+ */
+public final class PostOrderSpliterator<T>
     extends NaryTreeSpliterator<T>
 {
     private final Deque<PostorderNode<T>> deque = new ArrayDeque<>();
 
-    public PostorderSpliterator(final T root,
+    public PostOrderSpliterator(final T root,
         final Function<T, Iterator<T>> fn)
     {
         super(root, fn);
