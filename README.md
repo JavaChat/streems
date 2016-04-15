@@ -1,3 +1,5 @@
+# Streems [![Build Status](https://travis-ci.org/JavaChat/streems.svg?branch=master)](https://travis-ci.org/JavaChat/streems)
+
 ## Read me first
 
 This project is licensed under the Apache Software License, version 2. See the
