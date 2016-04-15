@@ -37,7 +37,7 @@ public final class PostOrderSpliterator<T>
                 action.accept(node.root);
                 return true;
             }
-            deque.addLast(new PostorderNode<T>(iterator.next(), fn));
+            deque.addLast(new PostorderNode<>(iterator.next(), fn));
         }
         return false;
     }
