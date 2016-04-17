@@ -38,6 +38,26 @@ of
 [`Iterable`](http://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)s,
 not `Stream`s. This package provides such a functionality.
 
+### The different traversals of an n-ary tree
+
+An example is provided by the javadoc of `TreeTraverser`; we will reproduce it
+here:
+
+```
+For example, the tree
+
+          h
+        / | \
+       /  e  \
+      d       g
+     /|\      |
+    / | \     f
+   a  b  c       
+
+can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or
+breadth-first order (hdegabcf).
+```
+
 ## Usage
 
 You provide a class which gives access to its immediate children, _in order_,
