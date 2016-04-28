@@ -28,21 +28,20 @@ public final class BreadthFirstSpliterator<T>
     @Override
     public boolean tryAdvance(final Consumer<? super T> action)
     {
-        final Iterator<T> iterator;
-        final T element;
+        Iterator<T> iterator;
+        T element;
 
-        if (deque.isEmpty())
-            return false;
-
-        iterator = deque.getFirst();
-        if (!iterator.hasNext()) {
-            deque.removeFirst();
-            return tryAdvance(action);
+        while (!deque.isEmpty()) {
+            iterator = deque.getFirst();
+            if (!iterator.hasNext()) {
+                deque.removeFirst();
+                continue;
+            }
+            element = iterator.next();
+            deque.add(fn.apply(element));
+            action.accept(element);
+            return true;
         }
-
-        element = iterator.next();
-        deque.add(fn.apply(element));
-        action.accept(element);
-        return true;
+        return false;
     }
 }
