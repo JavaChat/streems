@@ -121,7 +121,7 @@ public final class Streems
         final ArrayProvider<E> provider, final Traversal traversal)
     {
         final IteratorProvider<E> p
-            = e -> Arrays.stream(provider.apply(root)).iterator();
+            = e -> Arrays.stream(provider.apply(e)).iterator();
         return traverse(root, p, traversal);
     }
 }
