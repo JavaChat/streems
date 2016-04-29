@@ -17,8 +17,7 @@ import java.util.function.Function;
  *     <li>{@link #trySplit()} always returns {@code null};</li>
  *     <li>{@link #estimateSize()} always returns {@link Long#MAX_VALUE};</li>
  *     <li>{@link #characteristics()} are always {@link Spliterator#ORDERED
- *     ORDERED}, {@link Spliterator#DISTINCT DISTINCT} and {@link
- *     Spliterator#NONNULL NONNULL}.</li>
+ *     ORDERED} and {@link Spliterator#NONNULL NONNULL}.</li>
  * </ul>
  *
  * <p>Internally, the logic of traversal will always use an {@link Iterator}.
@@ -71,6 +70,6 @@ public abstract class NaryTreeSpliterator<T>
     @Override
     public final int characteristics()
     {
-        return ORDERED | DISTINCT | NONNULL;
+        return ORDERED | NONNULL;
     }
 }

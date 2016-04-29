@@ -82,14 +82,12 @@ final Stream<MyNode> stream
 The underlying
 [`Spliterator`](http://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html)
 will always have the same characteristics:
-[`ORDERED`](http://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html#ORDERED),
-[`DISTINCT`](http://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html#DISTINCT) and
+[`ORDERED`](http://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html#ORDERED)
+ and
 [`NONNULL`](http://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html#NONNULL):
 
 * `ORDERED` is obvious... After all, you choose the traversal order and you
   expect nodes to be returned in that order;
-* `DISTINCT` because even though two nodes may be `.equals()` during your
-  traversal, they are still different nodes in the traversal;
 * `NONNULL` because it is a requirement (you cannot attempt to get any children
   from a null node).
 
