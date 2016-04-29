@@ -124,4 +124,23 @@ public final class Streems
             = e -> Arrays.stream(provider.apply(e)).iterator();
         return traverse(root, p, traversal);
     }
+
+    /**
+     * Traversal method used when the root provides a stream of its children
+     * nodes
+     *
+     * @param root the root of the tree
+     * @param provider the stream provider
+     * @param traversal the requested traversal order
+     * @param <E> type of nodes in the tree
+     * @return a stream of all nodes implementing the requested traversal
+     *
+     * @see StreamProvider
+     */
+    public static <E> Stream<E> traverse(final E root,
+        final StreamProvider<E> provider, final Traversal traversal)
+    {
+        final IteratorProvider<E> p = e -> provider.apply(e).iterator();
+        return traverse(root, p, traversal);
+    }
 }

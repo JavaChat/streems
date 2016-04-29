@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Spliterator;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * Generic spliterator for n-ary tree traversal
@@ -24,11 +25,13 @@ import java.util.function.Function;
  * The function as an argument to the constructor is the means by which the
  * implementations will walk the children.</p>
  *
- * <p>The transformations from the two other possibilities ({@link Iterable} and
- * arrays) are as follows:</p>
+ * <p>The transformations from the three other possibilities ({@link Iterable},
+ * {@link Stream} and arrays) are as follows:</p>
  *
  * <ul>
  *     <li>{@link Iterable}: call the {@link Iterable#iterator()} method;</li>
+ *     <li>{@link Stream}: call this stream's {@link Stream#iterator()
+ *     iterator()};</li>
  *     <li>array: call {@code Arrays.stream(theArray).iterator()}.</li>
  * </ul>
  *

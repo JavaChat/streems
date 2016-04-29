@@ -63,6 +63,7 @@ breadth-first order (hdegabcf).
 You provide a class which gives access to its immediate children, _in order_,
 using either of:
 
+* a `Stream`,
 * an `Iterator`,
 * an `Iterable`,
 * or an array.
