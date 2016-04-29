@@ -7,7 +7,7 @@ LICENSE file at the root of the project for more details.
 
 This project requires **Java 8**.
 
-The current version is **0.1.0**:
+The current version is **0.2.0**:
 
 ```
 dependencies {
